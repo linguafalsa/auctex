@@ -477,33 +477,27 @@ inserted after the sectioning command."
   (if (string-equal "" reference)
       (setq reference nil)))
 
-
-;; Various
-(defun TeX-ConTeXt-sentinel (process name)
-  "Cleanup TeX output buffer after running ConTeXt."
-  (cond ((TeX-TeX-sentinel-check process name))
-	((save-excursion
-	   ;; in a full ConTeXt run there will multiple texutil
-	   ;; outputs. Just looking for "another run needed" would
-	   ;; find the first occurence
-	   (goto-char (point-max))
-	   (re-search-backward "TeXUtil " nil t)
-	   (re-search-forward "another run needed" nil t))
-	 (message (concat "You should run ConTeXt again "
-			  "to get references right, "
-			  (TeX-current-pages)))
-	 (setq TeX-command-next TeX-command-default))
-	((re-search-forward "removed files :" nil t)
-	 (message "sucessfully cleaned up"))
-	((re-search-forward "^ ?TeX\\(Exec\\|Util\\)" nil t) ;; strange regexp --pg
-	 (message (concat name ": successfully formatted "
-			  (TeX-current-pages)))
-	 (setq TeX-command-next TeX-command-Show))
-	(t
-	 (message (concat name ": problems after "
-			  (TeX-current-pages)))
-	 (setq TeX-command-next TeX-command-default))))
-
+ ;; Various
+  (defun TeX-ConTeXt-sentinel (process name)
+    "Cleanup TeX output buffer after running ConTeXt."
+    (cond ((TeX-TeX-sentinel-check process name))
+    ((save-excursion
+       ;; in a full ConTeXt run there will multiple texutil
+       ;; outputs. Just looking for "another run needed" would
+       ;; find the first occurence
+       (goto-char (point-max))
+       (re-search-backward "TeXUtil " nil t)
+       (re-search-forward "another run needed" nil t))
+     (message (concat "You should run ConTeXt again "
+              "to get references right, "
+              (TeX-current-pages)))
+     (setq TeX-command-next TeX-command-default))
+    ((re-search-forward "removed files :" nil t)
+     (message "sucessfully cleaned up"))
+    (t
+     (message (concat name ": successfully formatted "
+              (TeX-current-pages)
+     (setq TeX-command-next TeX-command-Show))))))
 
 ;;; Environments
 
