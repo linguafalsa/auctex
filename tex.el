@@ -129,7 +129,7 @@ If nil, none is specified."
     ;; first version of ConTeXt to support nonstopmode: 2003.2.10
     ("ConTeXt" "texexec --once --texutil %(execopts)%t"
      TeX-run-TeX nil (context-mode) :help "Run ConTeXt once")
-    ("ConTeXt Full" "texexec %(execopts)%t"
+    ("ConTeXt Full" "context %(execopts)%t"
      TeX-run-TeX nil
      (context-mode) :help "Run ConTeXt until completion")
     ("BibTeX" "bibtex %s" TeX-run-BibTeX nil t :help "Run BibTeX")
